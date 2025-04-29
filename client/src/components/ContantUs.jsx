@@ -23,7 +23,7 @@ export default function ContactUs() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://192.168.100.9:5000/api/contact", {
+      const res = await fetch("https://xmedia-web-server.vercel.app/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
