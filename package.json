@@ -1,0 +1,10 @@
+{
+    "name": "xmedia-web",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "npm run server",
+        "client": "npm start --prefix client",
+        "server": "node server/index.js"
+    },
+    "dependencies": {}
+}
