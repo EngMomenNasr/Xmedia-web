@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", async (req, res) => {
-  res.send("Server is running");
+  res.send("Server Running");
 });
 
 app.post("/api/contact", async (req, res) => {
