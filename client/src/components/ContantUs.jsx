@@ -82,6 +82,7 @@ export default function ContactUs() {
 
   return (
     <section className="bg-slate-900 py-16 px-6 md:px-10">
+      {/* نفس الكود حق الواجهة والفورم */}
       {modal.isOpen && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
           <div className={`flex flex-col justify-center items-center bg-slate-900 p-6 rounded-lg max-w-sm w-full border-2 ${modal.isError ? "border-red-500" : "border-slate-500"}`}>
