@@ -16,6 +16,8 @@ export default function ContactUs() {
     isError: false,
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false); // حالة جديدة لتعطيل الزر
+
   const validateForm = () => {
     const errors = [];
     if (!formData.fullName.trim()) errors.push("Full Name is required.");
@@ -43,6 +45,8 @@ export default function ContactUs() {
       });
       return;
     }
+
+    setIsSubmitting(true); // تعطيل الزر قبل إرسال الطلب
 
     try {
       const res = await fetch("https://xmedia-web-server.vercel.app/api/contact", {
@@ -73,6 +77,8 @@ export default function ContactUs() {
         message: "There was an error connecting to the server.",
         isError: true,
       });
+    } finally {
+      setIsSubmitting(false); // إعادة تمكين الزر بعد انتهاء العملية (سواء نجحت أو فشلت)
     }
   };
 
@@ -82,7 +88,6 @@ export default function ContactUs() {
 
   return (
     <section className="bg-slate-900 py-16 px-6 md:px-10">
-      {/* نفس الكود حق الواجهة والفورم */}
       {modal.isOpen && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-50">
           <div className={`flex flex-col justify-center items-center bg-slate-900 p-6 rounded-lg max-w-sm w-full border-2 ${modal.isError ? "border-red-500" : "border-slate-500"}`}>
@@ -101,6 +106,42 @@ export default function ContactUs() {
           </div>
         </div>
       )}
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-slate-800 shadow-md rounded-lg p-8">
+        <h2 className="text-white text-2xl font-bold mb-6 text-center">Contact Us</h2>
+        <div className="mb-4">
+          <label htmlFor="fullName" className="block text-gray-300 text-sm font-bold mb-2">Full Name</label>
+          <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-slate-700" />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-300 text-sm font-bold mb-2">Email Address</label>
+          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-slate-700" />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="phone" className="block text-gray-300 text-sm font-bold mb-2">Phone Number</label>
+          <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-slate-700" />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="requestType" className="block text-gray-300 text-sm font-bold mb-2">Type of Request</label>
+          <select id="requestType" name="requestType" value={formData.requestType} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-slate-700">
+            <option value="">Select a request type</option>
+            <option value="General Inquiry">General Inquiry</option>
+            <option value="Technical Support">Technical Support</option>
+            <option value="Sales Question">Sales Question</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div className="mb-6">
+          <label htmlFor="message" className="block text-gray-300 text-sm font-bold mb-2">Message</label>
+          <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="4" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-slate-700"></textarea>
+        </div>
+        <button
+          type="submit"
+          className={`bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Sending...' : 'Send Message'}
+        </button>
+      </form>
     </section>
   );
 }
