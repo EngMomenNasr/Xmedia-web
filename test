@@ -1,6 +1,0 @@
-filter.lfs.required=true
-filter.lfs.clean=git-lfs clean -- %f
-filter.lfs.smudge=git-lfs smudge -- %f
-filter.lfs.process=git-lfs filter-process
-user.name=EngMomenNasr
-user.email=moneznasr@gmail.com
